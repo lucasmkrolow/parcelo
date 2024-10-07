@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <title>Parcelo ou pago a vista</title>
+        <script>
+            function calcular() {
+                var valor = document.getElementById('valor').value;
+                var parcelas = document.getElementById('parcelas').value;
+                var valorParcela = document.getElementById('valorParcela').value;
+                var rendimento = document.getElementById('rendimento').value;
+                var saldoRendendo = valor;
+                var rendimentoTotal = 0;
+
+                var totalParcelando = parcelas * valorParcela;
+                var descontoAvista = totalParcelando - valor;
+
+                for (let index = 1; index < parcelas; index++) {
+                    saldoRendendo -= valorParcela;
+                    console.log(`${index} - ${saldoRendendo}`);
+                    var rendeu = saldoRendendo * (rendimento/100);
+                    console.log(rendeu);
+                    saldoRendendo += rendeu;
+                    rendimentoTotal += rendeu;
+                }
+                
+                var compensa = descontoAvista > rendimentoTotal ? "A vista" : "Parcelar";
+
+                document.getElementById('totalParcelando').value = totalParcelando.toFixed(2);
+                document.getElementById('descontoAvista').value = descontoAvista.toFixed(2);
+                document.getElementById('descontoAvistaPorcentagem').value = (descontoAvista/totalParcelando*100).toFixed(2);
+                document.getElementById('renderia').value = rendimentoTotal.toFixed(2);
+                document.getElementById('compensa').value = compensa;
+
+            }
+        </script>
+        <style type="text/css">
+            * {
+                box-sizing: border-box;
+            }
+
+            input[type=number], input[type=text] {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                resize: vertical;
+            }
+
+            label {
+                padding: 12px 12px 12px 0;
+                float: right;
+            }
+
+            .button {
+                margin-top: 10px;
+                background-color: #04AA6D;
+                color: white;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                float: right;
+            }
+
+            .button:hover {
+                background-color: #45a049;
+            }
+
+            .container {
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 20px;
+            }
+
+            .col-25 {
+                float: left;
+                width: 25%;
+                margin-top: 6px;
+            }
+
+            .col-75 {
+                float: left;
+                width: 75%;
+                margin-top: 6px;
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+            /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+            @media screen and (max-width: 600px) {
+                .col-25, .col-75, input[type=submit] {
+                    width: 100%;
+                }
+
+                label {
+                    float: left;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container" class="container">
+            <form id="calculadora" name="calculadora" >
+                <div class="row">
+                    <div class="col-25">
+                        <label for="valor">Valor a vista:</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="number" name="valor" id="valor" step=".01" value="900"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="valorParcela">Valor das parcelas:</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="number" name="valorParcela" id="valorParcela" step=".01" value="100"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="parcelas">Nº de parcelas:</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="number" name="parcelas" id="parcelas" value="10"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="rendimento">Rendimento mensal(%):</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="number" name="rendimento" id="rendimento" value="0.7"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <a class="button" id="calcular" onclick="calcular()">Calcular</a>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="rendimento">Parcelando você pagaria um total de:</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="number" name="totalParcelando" id="totalParcelando" disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="rendimento">A vista o desconto é de:</label>
+                    </div>
+                    <div class="col-25">
+                        <input type="number" name="descontoAvista" id="descontoAvista" disabled="disabled"/>
+                    </div>
+                    <div class="col-25">
+                        <label for="rendimento">Em porcentagem:</label>
+                    </div>
+                    <div class="col-25">
+                        <input type="number" name="descontoAvistaPorcentagem" id="descontoAvistaPorcentagem" disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="rendimento">Neste período, o valor renderia:</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="number" name="renderia" id="renderia" disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="compensa">Compensa:</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" name="compensa" id="compensa" disabled="disabled"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
